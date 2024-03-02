@@ -7,6 +7,7 @@ import ru.azenizzka.app.entities.Person;
 import ru.azenizzka.app.exceptions.BellTypeConvertException;
 import ru.azenizzka.app.services.BellScheduleService;
 import ru.azenizzka.app.telegram.InputType;
+import ru.azenizzka.app.telegram.keyboards.KeyboardType;
 import ru.azenizzka.app.telegram.messages.CustomMessage;
 import ru.azenizzka.app.telegram.messages.ErrorMessage;
 import ru.azenizzka.app.utils.BellUtil;
@@ -18,7 +19,7 @@ public class BellTypeHandler implements Handler {
 	public SendMessage handle(Update update, Person person) {
 		person.setInputType(InputType.COMMAND);
 
-		CustomMessage message = new CustomMessage(person.getChatId());
+		CustomMessage message = new CustomMessage(person.getChatId(), KeyboardType.MAIN);
 		String textMessage = update.getMessage().getText().toLowerCase();
 
 		try {

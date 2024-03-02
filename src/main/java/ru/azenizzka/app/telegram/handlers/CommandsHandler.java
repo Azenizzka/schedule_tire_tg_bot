@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.azenizzka.app.entities.Person;
 import ru.azenizzka.app.telegram.commands.Command;
 import ru.azenizzka.app.telegram.commands.BellCommand;
+import ru.azenizzka.app.telegram.commands.ReturnCommand;
 import ru.azenizzka.app.telegram.messages.ErrorMessage;
 import ru.azenizzka.app.utils.MessagesConfig;
 
@@ -16,9 +17,10 @@ import java.util.List;
 public class CommandsHandler implements Handler {
 	private final List<Command> commands;
 
-	public CommandsHandler(BellCommand bellCommand) {
+	public CommandsHandler(BellCommand bellCommand, ReturnCommand returnCommand) {
 		this.commands = new ArrayList<>();
 
+		commands.add(returnCommand);
 		commands.add(bellCommand);
 	}
 

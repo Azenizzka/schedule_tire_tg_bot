@@ -3,6 +3,10 @@ package ru.azenizzka.app.utils;
 public class MessagesConfig {
 	public static final String RETURN_COMMAND = "/назад";
 	public static final String RECESS_SCHEDULE_COMMAND = "/звонки";
+	public static final String LESSON_SCHEDULE_COMMAND = "/расписание";
+	public static final String SETTINGS_COMMAND = "/настройки";
+
+
 
 
 

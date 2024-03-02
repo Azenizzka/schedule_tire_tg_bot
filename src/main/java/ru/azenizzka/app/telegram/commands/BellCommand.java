@@ -5,6 +5,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.azenizzka.app.entities.Person;
 import ru.azenizzka.app.telegram.InputType;
+import ru.azenizzka.app.telegram.keyboards.KeyboardType;
 import ru.azenizzka.app.telegram.messages.CustomMessage;
 import ru.azenizzka.app.utils.MessagesConfig;
 
@@ -22,7 +23,7 @@ public class BellCommand implements Command {
 
 	@Override
 	public SendMessage handle(Update update, Person person) {
-		CustomMessage message = new CustomMessage(person.getChatId());
+		CustomMessage message = new CustomMessage(person.getChatId(), KeyboardType.BELL_TYPE);
 
 		message.setText(MessagesConfig.BELL_MESSAGE);
 

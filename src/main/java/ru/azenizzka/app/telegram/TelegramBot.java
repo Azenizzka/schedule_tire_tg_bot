@@ -8,8 +8,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.azenizzka.app.configuration.TelegramBotConfiguration;
 import ru.azenizzka.app.entities.Person;
 import ru.azenizzka.app.services.PersonService;
+import ru.azenizzka.app.telegram.commands.ReturnCommand;
 import ru.azenizzka.app.telegram.handlers.CommandsHandler;
 import ru.azenizzka.app.telegram.handlers.BellTypeHandler;
+import ru.azenizzka.app.utils.MessagesConfig;
 
 @Component
 public class TelegramBot extends TelegramLongPollingBot {
@@ -52,6 +54,11 @@ public class TelegramBot extends TelegramLongPollingBot {
 
 			person = personService.findByChatId(chatId);
 			person.setUsername(username);
+
+			// :TODO: FIX THIS GOVNO! ПЕРЕПИШИ НОРМАЛЬНО
+			if (update.getMessage().getText().equals(MessagesConfig.RETURN_COMMAND)) {
+				person.setInputType(InputType.COMMAND);
+			}
 
 			switch (person.getInputType()) {
 				case COMMAND -> sendMessage(commandsHandler.handle(update, person));
