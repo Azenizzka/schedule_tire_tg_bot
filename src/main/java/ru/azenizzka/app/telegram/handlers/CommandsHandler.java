@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.azenizzka.app.entities.Person;
 import ru.azenizzka.app.telegram.commands.Command;
 import ru.azenizzka.app.telegram.commands.BellCommand;
+import ru.azenizzka.app.telegram.commands.InfoCommand;
 import ru.azenizzka.app.telegram.commands.ReturnCommand;
 import ru.azenizzka.app.telegram.messages.ErrorMessage;
 import ru.azenizzka.app.utils.MessagesConfig;
@@ -17,19 +18,20 @@ import java.util.List;
 public class CommandsHandler implements Handler {
 	private final List<Command> commands;
 
-	public CommandsHandler(BellCommand bellCommand, ReturnCommand returnCommand) {
+	public CommandsHandler(BellCommand bellCommand, ReturnCommand returnCommand, InfoCommand infoCommand) {
 		this.commands = new ArrayList<>();
 
 		commands.add(returnCommand);
 		commands.add(bellCommand);
+		commands.add(infoCommand);
 	}
 
 	@Override
-	public SendMessage handle(Update update, Person person) {
+	public List<SendMessage> handle(Update update, Person person) {
 		String textMessage = update.getMessage().getText().toLowerCase();
 
 		for (Command command : commands) {
-			if (command.isRequiredAdminRights() != person.isAdmin()) {
+			if (command.isRequiredAdminRights() && !person.isAdmin()) {
 				continue;
 			}
 
@@ -38,6 +40,9 @@ public class CommandsHandler implements Handler {
 			}
 		}
 
-		return new ErrorMessage(update.getMessage().getChatId().toString(), MessagesConfig.UNKNOWN_COMMAND_EXCEPTION);
+		SendMessage errorMessage = new ErrorMessage(update.getMessage().getChatId().toString(), MessagesConfig.UNKNOWN_COMMAND_EXCEPTION);
+
+
+		return List.of(errorMessage);
 	}
 }

@@ -6,11 +6,13 @@ public class MessagesConfig {
 	public static final String LESSON_SCHEDULE_COMMAND = "/расписание";
 	public static final String SETTINGS_COMMAND = "/настройки";
 
+	public static final String INFO_COMMAND = "/info";
 
 
+	public static final String INFO_HEADER = "Список пользователей\n\n";
 
 
-	public static final String HELP_MESSAGE = "HELP_MESSAGE";
+	public static final String HELP_MESSAGE = "help message";
 	public static final String BELL_MESSAGE = "✏\uFE0F *Введите тип звонков*";
 
 

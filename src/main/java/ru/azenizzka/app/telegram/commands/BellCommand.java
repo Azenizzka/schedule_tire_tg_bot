@@ -9,6 +9,9 @@ import ru.azenizzka.app.telegram.keyboards.KeyboardType;
 import ru.azenizzka.app.telegram.messages.CustomMessage;
 import ru.azenizzka.app.utils.MessagesConfig;
 
+import java.util.Collections;
+import java.util.List;
+
 @Component
 public class BellCommand implements Command {
 	@Override
@@ -22,13 +25,13 @@ public class BellCommand implements Command {
 	}
 
 	@Override
-	public SendMessage handle(Update update, Person person) {
+	public List<SendMessage> handle(Update update, Person person) {
 		CustomMessage message = new CustomMessage(person.getChatId(), KeyboardType.BELL_TYPE);
 
 		message.setText(MessagesConfig.BELL_MESSAGE);
 
 		person.setInputType(InputType.INPUT_BELL_TYPE);
 
-		return message;
+		return List.of(message);
 	}
 }

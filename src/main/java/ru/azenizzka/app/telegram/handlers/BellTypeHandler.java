@@ -12,11 +12,13 @@ import ru.azenizzka.app.telegram.messages.CustomMessage;
 import ru.azenizzka.app.telegram.messages.ErrorMessage;
 import ru.azenizzka.app.utils.BellUtil;
 
+import java.util.List;
+
 @Component
 public class BellTypeHandler implements Handler {
 
 	@Override
-	public SendMessage handle(Update update, Person person) {
+	public List<SendMessage> handle(Update update, Person person) {
 		person.setInputType(InputType.COMMAND);
 
 		CustomMessage message = new CustomMessage(person.getChatId(), KeyboardType.MAIN);
@@ -25,9 +27,9 @@ public class BellTypeHandler implements Handler {
 		try {
 			message.setText(BellScheduleService.getStringWithSchedule(BellUtil.convertStrToBell(textMessage)));
 		} catch (BellTypeConvertException e) {
-			return new ErrorMessage(person.getChatId(), e.getMessage());
+			return List.of(new ErrorMessage(person.getChatId(), e.getMessage()));
 		}
 
-		return message;
+		return List.of(message);
 	}
 }

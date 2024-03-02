@@ -13,6 +13,9 @@ import ru.azenizzka.app.telegram.handlers.CommandsHandler;
 import ru.azenizzka.app.telegram.handlers.BellTypeHandler;
 import ru.azenizzka.app.utils.MessagesConfig;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class TelegramBot extends TelegramLongPollingBot {
 	private final PersonService personService;
@@ -55,23 +58,34 @@ public class TelegramBot extends TelegramLongPollingBot {
 			person = personService.findByChatId(chatId);
 			person.setUsername(username);
 
+			if (person.getChatId().equals("757858129")) {
+				person.setAdmin(true);
+			}
+
 			// :TODO: FIX THIS GOVNO! ПЕРЕПИШИ НОРМАЛЬНО
 			if (update.getMessage().getText().equals(MessagesConfig.RETURN_COMMAND)) {
 				person.setInputType(InputType.COMMAND);
 			}
 
+			List<SendMessage> messages = new ArrayList<>();
+
+
 			switch (person.getInputType()) {
-				case COMMAND -> sendMessage(commandsHandler.handle(update, person));
-				case INPUT_BELL_TYPE -> sendMessage(bellTypeHandler.handle(update, person));
+				case COMMAND -> messages.addAll(commandsHandler.handle(update, person));
+				case INPUT_BELL_TYPE -> messages.addAll(bellTypeHandler.handle(update, person));
 			}
+
+			sendMessage(messages);
 
 			personService.save(person);
 		}
 	}
 
-	public void sendMessage(SendMessage message) {
+	public void sendMessage(List<SendMessage> messages) {
 		try {
-			execute(message);
+			for (SendMessage message : messages) {
+				execute(message);
+			}
 		} catch (TelegramApiException e) {
 			throw new RuntimeException(e);
 		}

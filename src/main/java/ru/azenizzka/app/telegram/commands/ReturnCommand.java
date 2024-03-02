@@ -10,6 +10,8 @@ import ru.azenizzka.app.telegram.keyboards.KeyboardType;
 import ru.azenizzka.app.telegram.messages.CustomMessage;
 import ru.azenizzka.app.utils.MessagesConfig;
 
+import java.util.List;
+
 @Component
 public class ReturnCommand implements Command {
 	PersonRepository personRepository;
@@ -25,13 +27,13 @@ public class ReturnCommand implements Command {
 	}
 
 	@Override
-	public SendMessage handle(Update update, Person person) {
+	public List<SendMessage> handle(Update update, Person person) {
 		CustomMessage message = new CustomMessage(person.getChatId(), KeyboardType.MAIN);
 
-		message.setText(MessagesConfig.RETURN_COMMAND);
+		message.setText(MessagesConfig.HELP_MESSAGE);
 
 		person.setInputType(InputType.COMMAND);
 
-		return message;
+		return List.of(message);
 	}
 }
