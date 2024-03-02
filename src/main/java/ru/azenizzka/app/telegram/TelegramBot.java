@@ -7,10 +7,9 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.azenizzka.app.configuration.TelegramBotConfiguration;
 import ru.azenizzka.app.entities.Person;
-import ru.azenizzka.app.repositories.PersonRepository;
 import ru.azenizzka.app.services.PersonService;
 import ru.azenizzka.app.telegram.handlers.CommandsHandler;
-import ru.azenizzka.app.telegram.keyboards.InputType;
+import ru.azenizzka.app.telegram.handlers.BellTypeHandler;
 
 @Component
 public class TelegramBot extends TelegramLongPollingBot {
@@ -18,13 +17,15 @@ public class TelegramBot extends TelegramLongPollingBot {
 
 	private final TelegramBotConfiguration configuration;
 	private final CommandsHandler commandsHandler;
+	private final BellTypeHandler bellTypeHandler;
 
 
-	TelegramBot(PersonService personService, TelegramBotConfiguration configuration, CommandsHandler commandsHandler) {
+	TelegramBot(PersonService personService, TelegramBotConfiguration configuration, CommandsHandler commandsHandler, BellTypeHandler bellTypeHandler) {
 		super(configuration.getToken());
 		this.personService = personService;
 		this.configuration = configuration;
 		this.commandsHandler = commandsHandler;
+		this.bellTypeHandler = bellTypeHandler;
 	}
 
 	@Override
@@ -49,13 +50,15 @@ public class TelegramBot extends TelegramLongPollingBot {
 				personService.save(person);
 			}
 
-			person = personService.;
+			person = personService.findByChatId(chatId);
 			person.setUsername(username);
-			personRepository.save(person);
 
 			switch (person.getInputType()) {
-				case COMMAND -> sendMessage(commandsHandler.handleCommand(update));
+				case COMMAND -> sendMessage(commandsHandler.handle(update, person));
+				case INPUT_BELL_TYPE -> sendMessage(bellTypeHandler.handle(update, person));
 			}
+
+			personService.save(person);
 		}
 	}
 

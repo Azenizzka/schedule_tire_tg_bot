@@ -1,13 +1,10 @@
 package ru.azenizzka.app.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.azenizzka.app.telegram.keyboards.InputType;
+import ru.azenizzka.app.telegram.InputType;
 
 @NoArgsConstructor
 @Getter
@@ -20,7 +17,7 @@ public class Person {
 	private int id;
 
 	private String chatId;
-	private int group;
+	private int groupNum;
 
 	private String username;
 	private boolean isAdmin;

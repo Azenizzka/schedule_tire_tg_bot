@@ -3,33 +3,39 @@ package ru.azenizzka.app.telegram.handlers;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.azenizzka.app.entities.Person;
 import ru.azenizzka.app.telegram.commands.Command;
-import ru.azenizzka.app.telegram.commands.RecessScheduleCommand;
+import ru.azenizzka.app.telegram.commands.BellCommand;
 import ru.azenizzka.app.telegram.messages.ErrorMessage;
-import ru.azenizzka.app.utils.Consts;
+import ru.azenizzka.app.utils.MessagesConfig;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class CommandsHandler {
+public class CommandsHandler implements Handler {
 	private final List<Command> commands;
 
-	public CommandsHandler(RecessScheduleCommand recessScheduleCommand) {
+	public CommandsHandler(BellCommand bellCommand) {
 		this.commands = new ArrayList<>();
 
-		commands.add(recessScheduleCommand);
+		commands.add(bellCommand);
 	}
 
-	public SendMessage handleCommand(Update update) {
-		String messageLowerText = update.getMessage().getText().toLowerCase();
+	@Override
+	public SendMessage handle(Update update, Person person) {
+		String textMessage = update.getMessage().getText().toLowerCase();
 
 		for (Command command : commands) {
-			if (command.getCommand().equals(messageLowerText)) {
-				return command.handle(update);
+			if (command.isRequiredAdminRights() != person.isAdmin()) {
+				continue;
+			}
+
+			if (command.getCommand().equals(textMessage)) {
+				return command.handle(update, person);
 			}
 		}
 
-		return new ErrorMessage(update.getMessage().getChatId().toString(), Consts.UNKNOWN_COMMAND);
+		return new ErrorMessage(update.getMessage().getChatId().toString(), MessagesConfig.UNKNOWN_COMMAND_EXCEPTION);
 	}
 }
