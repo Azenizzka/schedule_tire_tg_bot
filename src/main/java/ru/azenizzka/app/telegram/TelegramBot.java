@@ -71,9 +71,6 @@ public class TelegramBot extends TelegramLongPollingBot {
 	}
 
 	public void sendMessage(List<SendMessage> messages) {
-
-		System.out.println(messages);
-
 		try {
 			for (SendMessage message : messages) {
 				execute(message);
