@@ -61,4 +61,8 @@ public class DayUtil {
 	public static Day convertStrToDay(String str) throws BellTypeConvertException {
 		return convertNumToDay(convertStrToInt(str));
 	}
+
+	public static int convertDayToInt(Day day) throws BellTypeConvertException{
+		return convertStrToInt(convertDayToStr(day));
+	}
 }

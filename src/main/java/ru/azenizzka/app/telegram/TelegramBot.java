@@ -8,12 +8,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.azenizzka.app.configuration.TelegramBotConfiguration;
 import ru.azenizzka.app.entities.Person;
 import ru.azenizzka.app.services.PersonService;
-import ru.azenizzka.app.telegram.commands.ReturnCommand;
-import ru.azenizzka.app.telegram.handlers.CommandsHandler;
-import ru.azenizzka.app.telegram.handlers.BellTypeHandler;
+import ru.azenizzka.app.telegram.handlers.InputType;
+import ru.azenizzka.app.telegram.handlers.MasterHandler;
 import ru.azenizzka.app.utils.MessagesConfig;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -21,16 +19,15 @@ public class TelegramBot extends TelegramLongPollingBot {
 	private final PersonService personService;
 
 	private final TelegramBotConfiguration configuration;
-	private final CommandsHandler commandsHandler;
-	private final BellTypeHandler bellTypeHandler;
+
+	private final MasterHandler masterHandler;
 
 
-	TelegramBot(PersonService personService, TelegramBotConfiguration configuration, CommandsHandler commandsHandler, BellTypeHandler bellTypeHandler) {
+	TelegramBot(PersonService personService, TelegramBotConfiguration configuration, MasterHandler masterHandler) {
 		super(configuration.getToken());
 		this.personService = personService;
 		this.configuration = configuration;
-		this.commandsHandler = commandsHandler;
-		this.bellTypeHandler = bellTypeHandler;
+		this.masterHandler = masterHandler;
 	}
 
 	@Override
@@ -67,21 +64,16 @@ public class TelegramBot extends TelegramLongPollingBot {
 				person.setInputType(InputType.COMMAND);
 			}
 
-			List<SendMessage> messages = new ArrayList<>();
-
-
-			switch (person.getInputType()) {
-				case COMMAND -> messages.addAll(commandsHandler.handle(update, person));
-				case INPUT_BELL_TYPE -> messages.addAll(bellTypeHandler.handle(update, person));
-			}
-
-			sendMessage(messages);
+			sendMessage(masterHandler.handle(update, person));
 
 			personService.save(person);
 		}
 	}
 
 	public void sendMessage(List<SendMessage> messages) {
+
+		System.out.println(messages);
+
 		try {
 			for (SendMessage message : messages) {
 				execute(message);

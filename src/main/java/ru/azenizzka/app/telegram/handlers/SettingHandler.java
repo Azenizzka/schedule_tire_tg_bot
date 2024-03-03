@@ -4,7 +4,9 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.azenizzka.app.entities.Person;
-import ru.azenizzka.app.telegram.commands.*;
+import ru.azenizzka.app.telegram.commands.ChangeGroupCommand;
+import ru.azenizzka.app.telegram.commands.Command;
+import ru.azenizzka.app.telegram.commands.ReturnCommand;
 import ru.azenizzka.app.telegram.messages.ErrorMessage;
 import ru.azenizzka.app.utils.MessagesConfig;
 
@@ -12,17 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class CommandsHandler implements Handler {
+public class SettingHandler implements Handler {
 	private final List<Command> commands;
 
-	public CommandsHandler(BellCommand bellCommand, ReturnCommand returnCommand, InfoCommand infoCommand, SettingsCommand settingsCommand) {
-		this.commands = new ArrayList<>();
+	public SettingHandler(ChangeGroupCommand changeGroupCommand, ReturnCommand returnCommand) {
+		commands = new ArrayList<>();
 
 		commands.add(returnCommand);
-		commands.add(bellCommand);
-		commands.add(settingsCommand);
-
-		commands.add(infoCommand);
+		commands.add(changeGroupCommand);
 	}
 
 	@Override
@@ -39,8 +38,8 @@ public class CommandsHandler implements Handler {
 			}
 		}
 
-		SendMessage errorMessage = new ErrorMessage(update.getMessage().getChatId().toString(), MessagesConfig.UNKNOWN_COMMAND_EXCEPTION);
-
+		SendMessage errorMessage = new ErrorMessage(person.getChatId(), MessagesConfig.UNKNOWN_COMMAND_EXCEPTION);
+		person.setInputType(InputType.COMMAND);
 
 		return List.of(errorMessage);
 	}

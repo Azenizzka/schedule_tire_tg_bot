@@ -6,7 +6,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.azenizzka.app.entities.Person;
 import ru.azenizzka.app.exceptions.BellTypeConvertException;
 import ru.azenizzka.app.services.BellScheduleService;
-import ru.azenizzka.app.telegram.InputType;
 import ru.azenizzka.app.telegram.keyboards.KeyboardType;
 import ru.azenizzka.app.telegram.messages.CustomMessage;
 import ru.azenizzka.app.telegram.messages.ErrorMessage;

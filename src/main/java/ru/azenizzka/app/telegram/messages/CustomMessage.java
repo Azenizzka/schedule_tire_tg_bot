@@ -1,10 +1,7 @@
 package ru.azenizzka.app.telegram.messages;
 
-import com.sun.tools.javac.Main;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import ru.azenizzka.app.telegram.keyboards.BellTypeKeyboard;
-import ru.azenizzka.app.telegram.keyboards.KeyboardType;
-import ru.azenizzka.app.telegram.keyboards.MainKeyboard;
+import ru.azenizzka.app.telegram.keyboards.*;
 
 public class CustomMessage extends SendMessage {
 	public CustomMessage(String chatId, KeyboardType keyboardType) {
@@ -13,19 +10,9 @@ public class CustomMessage extends SendMessage {
 
 		switch (keyboardType) {
 			case MAIN -> MainKeyboard.addKeyboard(this);
+			case SETTINGS_MAIN -> SettingsMainKeyboard.addKeyboard(this);
 			case BELL_TYPE -> BellTypeKeyboard.addKeyboard(this);
-		}
-	}
-
-	public CustomMessage(String chatId, KeyboardType keyboardType, String text) {
-		setChatId(chatId);
-		enableMarkdown(true);
-
-		this.setText(text);
-
-		switch (keyboardType) {
-			case MAIN -> MainKeyboard.addKeyboard(this);
-			case BELL_TYPE -> BellTypeKeyboard.addKeyboard(this);
+			case RETURN_TYPE -> ReturnKeyboard.addKeyboard(this);
 		}
 	}
 }

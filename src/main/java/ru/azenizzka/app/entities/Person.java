@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.azenizzka.app.telegram.InputType;
+import ru.azenizzka.app.telegram.handlers.InputType;
 
 @NoArgsConstructor
 @Getter

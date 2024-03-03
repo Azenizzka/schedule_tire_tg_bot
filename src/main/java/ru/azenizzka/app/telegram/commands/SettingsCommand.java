@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.azenizzka.app.entities.Person;
-import ru.azenizzka.app.repositories.PersonRepository;
 import ru.azenizzka.app.telegram.handlers.InputType;
 import ru.azenizzka.app.telegram.keyboards.KeyboardType;
 import ru.azenizzka.app.telegram.messages.CustomMessage;
@@ -13,12 +12,10 @@ import ru.azenizzka.app.utils.MessagesConfig;
 import java.util.List;
 
 @Component
-public class ReturnCommand implements Command {
-	PersonRepository personRepository;
-
+public class SettingsCommand implements Command {
 	@Override
 	public String getCommand() {
-		return MessagesConfig.RETURN_COMMAND;
+		return MessagesConfig.SETTINGS_COMMAND;
 	}
 
 	@Override
@@ -28,12 +25,13 @@ public class ReturnCommand implements Command {
 
 	@Override
 	public List<SendMessage> handle(Update update, Person person) {
-		CustomMessage message = new CustomMessage(person.getChatId(), KeyboardType.MAIN);
+		SendMessage sendMessage = new CustomMessage(person.getChatId(), KeyboardType.SETTINGS_MAIN);
 
-		message.setText(MessagesConfig.HELP_MESSAGE);
+		String result = "*Настройки:*\n\n" + "\uD83D\uDCDA Группа: " + person.getGroupNum();
 
-		person.setInputType(InputType.COMMAND);
+		sendMessage.setText(result);
+		person.setInputType(InputType.SETTINGS_MAIN);
 
-		return List.of(message);
+		return List.of(sendMessage);
 	}
 }

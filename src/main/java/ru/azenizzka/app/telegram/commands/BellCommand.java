@@ -4,12 +4,11 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.azenizzka.app.entities.Person;
-import ru.azenizzka.app.telegram.InputType;
+import ru.azenizzka.app.telegram.handlers.InputType;
 import ru.azenizzka.app.telegram.keyboards.KeyboardType;
 import ru.azenizzka.app.telegram.messages.CustomMessage;
 import ru.azenizzka.app.utils.MessagesConfig;
 
-import java.util.Collections;
 import java.util.List;
 
 @Component
