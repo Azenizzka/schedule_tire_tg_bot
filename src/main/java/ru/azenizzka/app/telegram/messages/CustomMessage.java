@@ -11,8 +11,14 @@ public class CustomMessage extends SendMessage {
 		switch (keyboardType) {
 			case MAIN -> MainKeyboard.addKeyboard(this);
 			case SETTINGS_MAIN -> SettingsMainKeyboard.addKeyboard(this);
-			case BELL_TYPE -> BellTypeKeyboard.addKeyboard(this);
-			case RETURN_TYPE -> ReturnKeyboard.addKeyboard(this);
+			case BELL -> BellTypeKeyboard.addKeyboard(this);
+			case RETURN -> ReturnKeyboard.addKeyboard(this);
+			case DAY -> DayKeyboard.addKeyboard(this);
 		}
+	}
+
+	public CustomMessage(String chatId, KeyboardType keyboardType, String text) {
+		this(chatId, keyboardType);
+		setText(text);
 	}
 }

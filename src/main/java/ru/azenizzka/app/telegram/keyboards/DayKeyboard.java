@@ -1,26 +1,41 @@
 package ru.azenizzka.app.telegram.keyboards;
 
-import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
+import ru.azenizzka.app.utils.DayUtil;
 import ru.azenizzka.app.utils.MessagesConfig;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SettingsMainKeyboard {
+public class DayKeyboard {
 	public static void addKeyboard(SendMessage message) {
 		ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
 		List<KeyboardRow> keyboard = new ArrayList<>();
 		KeyboardRow row = new KeyboardRow();
 
-		row.add(MessagesConfig.CHANGE_GROUP_COMMAND);
+		row.add("Понедельник");
+		row.add("Вторник");
+		row.add("Среда");
+
+		keyboard.add(row);
+		row = new KeyboardRow();
+
+		row.add("Четверг");
+		row.add("Пятница");
+		row.add("Суббота");
+
+		keyboard.add(row);
+		row = new KeyboardRow();
+
+		row.add("Сегодня");
 
 		keyboard.add(row);
 		row = new KeyboardRow();
 
 		row.add(MessagesConfig.RETURN_COMMAND);
+
 		keyboard.add(row);
 
 		keyboardMarkup.setResizeKeyboard(true);

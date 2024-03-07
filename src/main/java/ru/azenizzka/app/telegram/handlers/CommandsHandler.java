@@ -15,12 +15,13 @@ import java.util.List;
 public class CommandsHandler implements Handler {
 	private final List<Command> commands;
 
-	public CommandsHandler(BellCommand bellCommand, ReturnCommand returnCommand, InfoCommand infoCommand, SettingsCommand settingsCommand) {
+	public CommandsHandler(BellCommand bellCommand, ReturnCommand returnCommand, InfoCommand infoCommand, SettingsCommand settingsCommand, ScheduleCommand scheduleCommand) {
 		this.commands = new ArrayList<>();
 
 		commands.add(returnCommand);
 		commands.add(bellCommand);
 		commands.add(settingsCommand);
+		commands.add(scheduleCommand);
 
 		commands.add(infoCommand);
 	}

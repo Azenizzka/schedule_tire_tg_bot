@@ -12,6 +12,7 @@ public class DayUtil {
 
 
 	static {
+		strIntMap.put("сегодня", 0);
 		strIntMap.put("понедельник", 1);
 		strIntMap.put("вторник", 2);
 		strIntMap.put("среда", 3);
@@ -19,6 +20,7 @@ public class DayUtil {
 		strIntMap.put("пятница", 5);
 		strIntMap.put("суббота", 6);
 
+		intDayMap.put(0, Day.TODAY);
 		intDayMap.put(1, Day.MONDAY);
 		intDayMap.put(2, Day.TUESDAY);
 		intDayMap.put(3, Day.WEDNESDAY);
@@ -26,9 +28,10 @@ public class DayUtil {
 		intDayMap.put(5, Day.FRIDAY);
 		intDayMap.put(6, Day.SATURDAY);
 
+		dayStrMap.put(Day.TODAY, "сегодня");
 		dayStrMap.put(Day.MONDAY, "понедельник");
 		dayStrMap.put(Day.TUESDAY, "вторник");
-		dayStrMap.put(Day.WEDNESDAY, "стреда");
+		dayStrMap.put(Day.WEDNESDAY, "среда");
 		dayStrMap.put(Day.THURSDAY, "четверг");
 		dayStrMap.put(Day.FRIDAY, "пятница");
 		dayStrMap.put(Day.SATURDAY, "суббота");
@@ -38,7 +41,7 @@ public class DayUtil {
 		if (intDayMap.containsKey(num)) {
 			return intDayMap.get(num);
 		} else {
-			throw new BellTypeConvertException(MessagesConfig.BELL_TYPE_CONVERT_EXCEPTION);
+			throw new BellTypeConvertException(MessagesConfig.DAY_INPUT_EXCEPTION);
 		}
 	}
 
@@ -46,7 +49,7 @@ public class DayUtil {
 		if (strIntMap.containsKey(str)) {
 			return strIntMap.get(str);
 		} else {
-			throw new BellTypeConvertException(MessagesConfig.BELL_TYPE_CONVERT_EXCEPTION);
+			throw new BellTypeConvertException(MessagesConfig.DAY_INPUT_EXCEPTION);
 		}
 	}
 
@@ -54,7 +57,7 @@ public class DayUtil {
 		if (dayStrMap.containsKey(day)) {
 			return dayStrMap.get(day);
 		} else {
-			throw new BellTypeConvertException(MessagesConfig.BELL_TYPE_CONVERT_EXCEPTION);
+			throw new BellTypeConvertException(MessagesConfig.DAY_INPUT_EXCEPTION);
 		}
 	}
 

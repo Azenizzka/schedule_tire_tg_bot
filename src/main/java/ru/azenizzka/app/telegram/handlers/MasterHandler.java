@@ -14,12 +14,14 @@ public class MasterHandler implements Handler {
 	private final BellTypeHandler bellTypeHandler;
 	private final ChangeGroupHandler changeGroupHandler;
 	private final SettingHandler settingHandler;
+	private final RecessHandler recessHandler;
 
-	public MasterHandler(CommandsHandler commandsHandler, BellTypeHandler bellTypeHandler, ChangeGroupHandler changeGroupHandler, SettingHandler settingHandler) {
+	public MasterHandler(CommandsHandler commandsHandler, BellTypeHandler bellTypeHandler, ChangeGroupHandler changeGroupHandler, SettingHandler settingHandler, RecessHandler recessHandler) {
 		this.commandsHandler = commandsHandler;
 		this.bellTypeHandler = bellTypeHandler;
 		this.changeGroupHandler = changeGroupHandler;
 		this.settingHandler = settingHandler;
+		this.recessHandler = recessHandler;
 	}
 
 	@Override
@@ -28,9 +30,10 @@ public class MasterHandler implements Handler {
 
 		switch (person.getInputType()) {
 			case COMMAND -> messages.addAll(commandsHandler.handle(update, person));
-			case INPUT_BELL_TYPE -> messages.addAll(bellTypeHandler.handle(update, person));
-			case INPUT_GROUP -> messages.addAll(changeGroupHandler.handle(update, person));
+			case BELL_TYPE -> messages.addAll(bellTypeHandler.handle(update, person));
+			case GROUP -> messages.addAll(changeGroupHandler.handle(update, person));
 			case SETTINGS_MAIN -> messages.addAll(settingHandler.handle(update, person));
+			case DAY -> messages.addAll(recessHandler.handle(update, person));
 		}
 
 		return messages;

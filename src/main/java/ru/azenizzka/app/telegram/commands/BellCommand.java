@@ -25,11 +25,11 @@ public class BellCommand implements Command {
 
 	@Override
 	public List<SendMessage> handle(Update update, Person person) {
-		CustomMessage message = new CustomMessage(person.getChatId(), KeyboardType.BELL_TYPE);
+		CustomMessage message = new CustomMessage(person.getChatId(), KeyboardType.BELL);
 
 		message.setText(MessagesConfig.BELL_MESSAGE);
 
-		person.setInputType(InputType.INPUT_BELL_TYPE);
+		person.setInputType(InputType.BELL_TYPE);
 
 		return List.of(message);
 	}

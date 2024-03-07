@@ -7,15 +7,16 @@ import ru.azenizzka.app.entities.Person;
 import ru.azenizzka.app.telegram.handlers.InputType;
 import ru.azenizzka.app.telegram.keyboards.KeyboardType;
 import ru.azenizzka.app.telegram.messages.CustomMessage;
+import ru.azenizzka.app.telegram.messages.ErrorMessage;
 import ru.azenizzka.app.utils.MessagesConfig;
 
 import java.util.List;
 
 @Component
-public class ChangeGroupCommand implements Command {
+public class ScheduleCommand implements Command {
 	@Override
 	public String getCommand() {
-		return MessagesConfig.CHANGE_GROUP_COMMAND;
+		return MessagesConfig.LESSON_SCHEDULE_COMMAND;
 	}
 
 	@Override
@@ -25,9 +26,14 @@ public class ChangeGroupCommand implements Command {
 
 	@Override
 	public List<SendMessage> handle(Update update, Person person) {
-		CustomMessage message = new CustomMessage(person.getChatId(), KeyboardType.RETURN);
-		message.setText(MessagesConfig.CHANGE_GROUP_MESSAGE);
-		person.setInputType(InputType.GROUP);
+		if (person.getGroupNum() == 0) {
+			return List.of(new ErrorMessage(person.getChatId(), MessagesConfig.GROUP_NOT_DEFINED_EXCEPTION));
+		}
+
+		SendMessage message = new CustomMessage(person.getChatId(), KeyboardType.DAY);
+
+		person.setInputType(InputType.DAY);
+		message.setText(MessagesConfig.DAY_MESSAGE);
 
 		return List.of(message);
 	}
