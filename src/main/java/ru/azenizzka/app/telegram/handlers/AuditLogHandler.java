@@ -1,0 +1,76 @@
+package ru.azenizzka.app.telegram.handlers;
+
+import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import ru.azenizzka.app.configuration.TelegramBotConfiguration;
+import ru.azenizzka.app.entities.Person;
+import ru.azenizzka.app.exceptions.BellTypeConvertException;
+import ru.azenizzka.app.services.BellScheduleService;
+import ru.azenizzka.app.telegram.keyboards.KeyboardType;
+import ru.azenizzka.app.telegram.messages.CustomMessage;
+import ru.azenizzka.app.telegram.messages.ErrorMessage;
+import ru.azenizzka.app.utils.BellUtil;
+import ru.azenizzka.app.utils.MessagesConfig;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Component
+public class AuditLogHandler implements Handler {
+	private final TelegramBotConfiguration configuration;
+
+	public AuditLogHandler(TelegramBotConfiguration configuration) {
+		this.configuration = configuration;
+	}
+
+	@Override
+	public List<SendMessage> handle(Update update, Person person) {
+		List<SendMessage> list = new ArrayList<>();
+
+		SendMessage sendMessage = new CustomMessage();
+
+
+//		System.out.println(person.getChatId());
+//		System.out.println("==");
+//		System.out.println(configuration.getAuditLogChatId());
+//
+//		System.out.println(person.getChatId().equals(configuration.getAuditLogChatId()));
+
+		if (person.getChatId().equals(configuration.getAuditLogChatId())) {
+			String replyToUserChatId = update.getMessage().getReplyToMessage().getReplyMarkup().getKeyboard().get(0).get(0).getText();
+
+			sendMessage.setChatId(replyToUserChatId);
+			sendMessage.setText(update.getMessage().getText());
+			list.add(sendMessage);
+
+			sendMessage = new CustomMessage(configuration.getAuditLogChatId(), KeyboardType.RETURN);
+			sendMessage.setText("Ваше сообщение было отправлено пользователю");
+			list.add(sendMessage);
+		} else {
+			sendMessage.setChatId(configuration.getAuditLogChatId());
+			sendMessage.setText(String.format("@%s [%d] (%s): *\"%s\"*", person.getUsername(), person.getGroupNum(), person.getUsername(), update.getMessage().getText()));
+
+			InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
+			List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+			List<InlineKeyboardButton> rowInline = new ArrayList<>();
+
+
+			InlineKeyboardButton button = new InlineKeyboardButton(person.getChatId());
+			button.setCallbackData("reply_to_user");
+
+			rowInline.add(button);
+			rowsInline.add(rowInline);
+
+			markupInline.setKeyboard(rowsInline);
+			sendMessage.setReplyMarkup(markupInline);
+
+			list.add(sendMessage);
+		}
+
+		return list;
+	}
+}

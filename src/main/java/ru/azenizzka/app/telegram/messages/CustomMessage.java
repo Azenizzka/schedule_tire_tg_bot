@@ -1,8 +1,11 @@
 package ru.azenizzka.app.telegram.messages;
 
+import lombok.NoArgsConstructor;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import ru.azenizzka.app.telegram.keyboards.*;
 
+
+@NoArgsConstructor
 public class CustomMessage extends SendMessage {
 	public CustomMessage(String chatId, KeyboardType keyboardType) {
 		setChatId(chatId);

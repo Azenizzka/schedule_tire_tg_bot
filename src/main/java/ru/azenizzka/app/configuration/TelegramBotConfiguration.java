@@ -20,6 +20,9 @@ public class TelegramBotConfiguration {
 	@Value("${bot.token}")
 	private String token;
 
+	@Value("${bot.auditLogChatId}")
+	private String auditLogChatId;
+
 	@Bean
 	public TelegramBotsApi telegramBotsApi(TelegramBot telegramBot) throws TelegramApiException {
 		TelegramBotsApi api = new TelegramBotsApi(DefaultBotSession.class);
