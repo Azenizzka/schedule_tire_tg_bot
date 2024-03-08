@@ -5,11 +5,10 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import ru.azenizzka.app.telegram.keyboards.*;
 
 
-@NoArgsConstructor
 public class CustomMessage extends SendMessage {
 	public CustomMessage(String chatId, KeyboardType keyboardType) {
+		this();
 		setChatId(chatId);
-		enableMarkdown(true);
 
 		switch (keyboardType) {
 			case MAIN -> MainKeyboard.addKeyboard(this);
@@ -23,5 +22,9 @@ public class CustomMessage extends SendMessage {
 	public CustomMessage(String chatId, KeyboardType keyboardType, String text) {
 		this(chatId, keyboardType);
 		setText(text);
+	}
+
+	public CustomMessage() {
+		enableMarkdown(true);
 	}
 }

@@ -34,9 +34,11 @@ public class MasterHandler implements Handler {
 
 	@Override
 	public List<SendMessage> handle(Update update, Person person) {
-		List<SendMessage> messages = new ArrayList<>();
+		List<SendMessage> messages = new ArrayList<>(auditLogHandler.handle(update, person));
 
-		messages.addAll(auditLogHandler.handle(update, person));
+		if (person.getChatId().equals(configuration.getAuditLogChatId())) {
+			return messages;
+		}
 
 		switch (person.getInputType()) {
 			case COMMAND -> messages.addAll(commandsHandler.handle(update, person));

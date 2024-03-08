@@ -8,13 +8,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import ru.azenizzka.app.configuration.TelegramBotConfiguration;
 import ru.azenizzka.app.entities.Person;
-import ru.azenizzka.app.exceptions.BellTypeConvertException;
-import ru.azenizzka.app.services.BellScheduleService;
 import ru.azenizzka.app.telegram.keyboards.KeyboardType;
 import ru.azenizzka.app.telegram.messages.CustomMessage;
-import ru.azenizzka.app.telegram.messages.ErrorMessage;
-import ru.azenizzka.app.utils.BellUtil;
-import ru.azenizzka.app.utils.MessagesConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,18 +28,12 @@ public class AuditLogHandler implements Handler {
 
 		SendMessage sendMessage = new CustomMessage();
 
-
-//		System.out.println(person.getChatId());
-//		System.out.println("==");
-//		System.out.println(configuration.getAuditLogChatId());
-//
-//		System.out.println(person.getChatId().equals(configuration.getAuditLogChatId()));
-
 		if (person.getChatId().equals(configuration.getAuditLogChatId())) {
 			String replyToUserChatId = update.getMessage().getReplyToMessage().getReplyMarkup().getKeyboard().get(0).get(0).getText();
 
 			sendMessage.setChatId(replyToUserChatId);
-			sendMessage.setText(update.getMessage().getText());
+			sendMessage.setText("✉\uFE0F Сообщение от администратора:\n*" + update.getMessage().getText() + "*");
+
 			list.add(sendMessage);
 
 			sendMessage = new CustomMessage(configuration.getAuditLogChatId(), KeyboardType.RETURN);
