@@ -10,6 +10,7 @@ import ru.azenizzka.app.configuration.TelegramBotConfiguration;
 import ru.azenizzka.app.entities.Person;
 import ru.azenizzka.app.telegram.keyboards.KeyboardType;
 import ru.azenizzka.app.telegram.messages.CustomMessage;
+import ru.azenizzka.app.telegram.messages.NotifyMessage;
 import ru.azenizzka.app.utils.MessagesConfig;
 
 import java.util.ArrayList;
@@ -27,23 +28,21 @@ public class AuditLogHandler implements Handler {
 	public List<SendMessage> handle(Update update, Person person) {
 		List<SendMessage> list = new ArrayList<>();
 
-		SendMessage sendMessage = new CustomMessage();
+		SendMessage sendMessage;
 		Message message = update.getMessage();
 
 		if (person.getChatId().equals(configuration.getAuditLogChatId())) {
 			if (message.getReplyToMessage() != null && message.getReplyToMessage().hasReplyMarkup()) {
 				String replyToUserChatId = update.getMessage().getReplyToMessage().getReplyMarkup().getKeyboard().get(0).get(0).getText();
 
-				sendMessage.setChatId(replyToUserChatId);
-				sendMessage.setText(String.format(MessagesConfig.MESSAGE_FROM_ADMIN_TEMPLATE, message.getText()));
-
+				sendMessage = new NotifyMessage(replyToUserChatId, message.getText());
 				list.add(sendMessage);
 
-				sendMessage = new CustomMessage(configuration.getAuditLogChatId(), KeyboardType.RETURN);
-				sendMessage.setText("Ваше сообщение было отправлено пользователю");
+				sendMessage = new NotifyMessage(configuration.getAuditLogChatId(), "Ваше сообщение было отправлено пользователю");
 				list.add(sendMessage);
 			}
 		} else {
+			sendMessage = new CustomMessage();
 			sendMessage.setChatId(configuration.getAuditLogChatId());
 			sendMessage.setText(String.format("@%s [%d] (%s): *\"%s\"*", person.getUsername(), person.getGroupNum(), person.getUsername(), message.getText()));
 
