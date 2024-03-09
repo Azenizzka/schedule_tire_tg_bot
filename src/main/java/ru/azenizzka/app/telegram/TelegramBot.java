@@ -59,11 +59,6 @@ public class TelegramBot extends TelegramLongPollingBot {
 				person.setAdmin(true);
 			}
 
-			// :TODO: FIX THIS GOVNO! ПЕРЕПИШИ НОРМАЛЬНО
-			if (update.getMessage().getText().equals(MessagesConfig.RETURN_COMMAND)) {
-				person.setInputType(InputType.COMMAND);
-			}
-
 			sendMessage(masterHandler.handle(update, person));
 
 			personService.save(person);

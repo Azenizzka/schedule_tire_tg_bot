@@ -15,17 +15,22 @@ public class MessagesConfig {
 
 
 	public static final String HELP_MESSAGE = "help message";
-	public static final String BELL_MESSAGE = "✏\uFE0F *Введите тип звонков*";
-	public static final String DAY_MESSAGE = "✏\uFE0F *Введите день*";
-	public static final String CHANGE_GROUP_MESSAGE = "✏\uFE0F Введите номер вашей группы.\n\nПример: Если ваша группа *МР-232*, то вводите *232*.";
+	public static final String BELL_MESSAGE = "✏️ *Введите тип звонков*";
+	public static final String DAY_MESSAGE = "✏️ *Введите день*";
+	public static final String CHANGE_GROUP_MESSAGE = """
+			✏️ Введите номер вашей группы.
+
+			Пример: Если ваша группа *МР-232*, то вводите *232*.""";
 	public static final String SUCCESS_CHANGE_GROUP_MESSAGE = "\uD83D\uDFE2 Вы усппешно сменили группу";
 	public static final String NO_LESSONS_MESSAGE = "\uD83E\uDD42 *В этот день у вас нет занятий!*";
 
 
 
-	public static final String ERROR_TEMPLATE = "⭕\uFE0F Что-то пошло не так..\n" +
-			"Текст ошибки: *%s*.\n\n" +
-			"\uD83D\uDC68\uD83C\uDFFF\u200D\uD83D\uDCBB Обратная связь: @Azenizzka";
+	public static final String ERROR_TEMPLATE = """
+			⭕️ Что-то пошло не так..
+			Текст ошибки: *%s*.
+
+			\uD83D\uDC68\uD83C\uDFFF\u200D\uD83D\uDCBB Обратная связь: @Azenizzka""";
 
 
 

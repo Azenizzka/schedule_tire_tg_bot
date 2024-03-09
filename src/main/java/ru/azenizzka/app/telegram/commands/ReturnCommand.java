@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.azenizzka.app.entities.Person;
-import ru.azenizzka.app.repositories.PersonRepository;
 import ru.azenizzka.app.telegram.handlers.InputType;
 import ru.azenizzka.app.telegram.keyboards.KeyboardType;
 import ru.azenizzka.app.telegram.messages.CustomMessage;
@@ -14,7 +13,6 @@ import java.util.List;
 
 @Component
 public class ReturnCommand implements Command {
-	PersonRepository personRepository;
 
 	@Override
 	public String getCommand() {

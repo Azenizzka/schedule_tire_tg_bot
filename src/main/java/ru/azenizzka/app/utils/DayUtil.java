@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DayUtil {
-	public static final Map<String, Integer> strIntMap = new HashMap<>(6);
-	public static final Map<Integer, Day> intDayMap = new HashMap<>(6);
-	public static final Map<Day, String> dayStrMap = new HashMap<>(6);;
+	public static final Map<String, Integer> strIntMap = new HashMap<>(7);
+	public static final Map<Integer, Day> intDayMap = new HashMap<>(7);
+	public static final Map<Day, String> dayStrMap = new HashMap<>(7);
 
 
 	static {

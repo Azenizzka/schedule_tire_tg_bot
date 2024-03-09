@@ -3,7 +3,6 @@ package ru.azenizzka.app.telegram.keyboards;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
-import ru.azenizzka.app.utils.DayUtil;
 import ru.azenizzka.app.utils.MessagesConfig;
 
 import java.util.ArrayList;

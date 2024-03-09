@@ -1,6 +1,5 @@
 package ru.azenizzka.app.telegram.messages;
 
-import lombok.NoArgsConstructor;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import ru.azenizzka.app.telegram.keyboards.*;
 

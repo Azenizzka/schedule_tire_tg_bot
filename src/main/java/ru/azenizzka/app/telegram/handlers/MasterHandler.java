@@ -1,11 +1,11 @@
 package ru.azenizzka.app.telegram.handlers;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.azenizzka.app.configuration.TelegramBotConfiguration;
 import ru.azenizzka.app.entities.Person;
+import ru.azenizzka.app.utils.MessagesConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,19 +22,24 @@ public class MasterHandler implements Handler {
 
 	private final TelegramBotConfiguration configuration;
 
-	public MasterHandler(TelegramBotConfiguration configuration, CommandsHandler commandsHandler, BellTypeHandler bellTypeHandler, ChangeGroupHandler changeGroupHandler, SettingHandler settingHandler, RecessHandler recessHandler, AuditLogHandler auditLogHandler, TelegramBotConfiguration configuration1) {
+	public MasterHandler(TelegramBotConfiguration configuration, CommandsHandler commandsHandler, BellTypeHandler bellTypeHandler, ChangeGroupHandler changeGroupHandler, SettingHandler settingHandler, RecessHandler recessHandler, AuditLogHandler auditLogHandler) {
+		this.configuration = configuration;
+
 		this.commandsHandler = commandsHandler;
 		this.bellTypeHandler = bellTypeHandler;
 		this.changeGroupHandler = changeGroupHandler;
 		this.settingHandler = settingHandler;
 		this.recessHandler = recessHandler;
 		this.auditLogHandler = auditLogHandler;
-		this.configuration = configuration1;
 	}
 
 	@Override
 	public List<SendMessage> handle(Update update, Person person) {
 		List<SendMessage> messages = new ArrayList<>(auditLogHandler.handle(update, person));
+
+		if (update.getMessage().getText().equals(MessagesConfig.RETURN_COMMAND)) {
+			person.setInputType(InputType.COMMAND);
+		}
 
 		if (person.getChatId().equals(configuration.getAuditLogChatId())) {
 			return messages;

@@ -2,6 +2,7 @@ package ru.azenizzka.app.telegram.handlers;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -26,21 +27,24 @@ public class AuditLogHandler implements Handler {
 		List<SendMessage> list = new ArrayList<>();
 
 		SendMessage sendMessage = new CustomMessage();
+		Message message = update.getMessage();
 
 		if (person.getChatId().equals(configuration.getAuditLogChatId())) {
-			String replyToUserChatId = update.getMessage().getReplyToMessage().getReplyMarkup().getKeyboard().get(0).get(0).getText();
+			if (message.getReplyToMessage() != null && message.getReplyToMessage().hasReplyMarkup()) {
+				String replyToUserChatId = update.getMessage().getReplyToMessage().getReplyMarkup().getKeyboard().get(0).get(0).getText();
 
-			sendMessage.setChatId(replyToUserChatId);
-			sendMessage.setText("✉\uFE0F Сообщение от администратора:\n*" + update.getMessage().getText() + "*");
+				sendMessage.setChatId(replyToUserChatId);
+				sendMessage.setText("✉️ Сообщение от администратора:\n*" + message.getText() + "*");
 
-			list.add(sendMessage);
+				list.add(sendMessage);
 
-			sendMessage = new CustomMessage(configuration.getAuditLogChatId(), KeyboardType.RETURN);
-			sendMessage.setText("Ваше сообщение было отправлено пользователю");
-			list.add(sendMessage);
+				sendMessage = new CustomMessage(configuration.getAuditLogChatId(), KeyboardType.RETURN);
+				sendMessage.setText("Ваше сообщение было отправлено пользователю");
+				list.add(sendMessage);
+			}
 		} else {
 			sendMessage.setChatId(configuration.getAuditLogChatId());
-			sendMessage.setText(String.format("@%s [%d] (%s): *\"%s\"*", person.getUsername(), person.getGroupNum(), person.getUsername(), update.getMessage().getText()));
+			sendMessage.setText(String.format("@%s [%d] (%s): *\"%s\"*", person.getUsername(), person.getGroupNum(), person.getUsername(), message.getText()));
 
 			InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
 			List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();

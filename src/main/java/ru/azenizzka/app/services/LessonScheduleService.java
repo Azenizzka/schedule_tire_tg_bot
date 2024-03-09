@@ -47,9 +47,9 @@ public class LessonScheduleService {
 			case SATURDAY -> dayNum = 5;
 		}
 
-		int plus = 3;
+		int increment = 3;
 
-		int startRowIndex = (neededRow + plus) + 6 * dayNum;
+		int startRowIndex = (neededRow + increment) + 6 * dayNum;
 		int endRowIndex = startRowIndex + 6;
 		int need = getGroupCount() * 3;
 
@@ -58,11 +58,11 @@ public class LessonScheduleService {
 			Element row = rows.get(rowIndex);
 			Elements columns = row.select("td");
 
-			plus = 0;
+			increment = 0;
 			while (initStartColumnIndex(columns) == -1) {
-				plus++;
+				increment++;
 
-				startRowIndex = (neededRow + plus) + (6 * dayNum);
+				startRowIndex = (neededRow + increment) + (6 * dayNum);
 				rowIndex = startRowIndex;
 
 				endRowIndex = startRowIndex + 6;
@@ -112,6 +112,7 @@ public class LessonScheduleService {
 				return i;
 			}
 		}
+
 		return -1;
 	}
 
@@ -150,13 +151,14 @@ public class LessonScheduleService {
 
 	public boolean isGroupExists(int groupNum) throws Exception {
 		Document mainDocument;
+
 		try {
 			mainDocument = Jsoup.connect("http://www.ntmm.ru/student/raspisanie.php").get();
 		} catch (IOException e) {
 			throw new Exception("Сайт недоступен!");
 		}
-		Elements elements = mainDocument
-				.select("a[href]");
+
+		Elements elements = mainDocument.select("a[href]");
 
 		for (Element hyperLink : elements) {
 			String hyprText = hyperLink.text();
@@ -170,15 +172,15 @@ public class LessonScheduleService {
 
 	private void initUrl(int groupNum) throws Exception {
 		Document mainDocument = Jsoup.connect("http://www.ntmm.ru/student/raspisanie.php").get();
-		Elements elements = mainDocument
-				.select("a[href]");
+		Elements elements = mainDocument.select("a[href]");
 
 		for (Element hyperLink : elements) {
 			String hyprText = hyperLink.text();
+
 			if (hyprText.contains(String.valueOf(groupNum))) {
 				url = "http://www.ntmm.ru" + hyperLink.attr("href").replace(".htm", ".files") + "/sheet001.htm";
 				initDocument();
-				// love != suffering
+
 				return;
 			}
 		}
@@ -188,15 +190,14 @@ public class LessonScheduleService {
 
 	private void initDocument() throws Exception {
 		Document document;
+
 		try {
 			document = Jsoup.connect(url).get();
 		} catch (IOException e) {
 			throw new Exception("Сайт недоступен");
 		}
 
-		rows = Objects.requireNonNull(document.select("table")
-						.first())
-				.select("tr");
+		rows = Objects.requireNonNull(document.select("table").first()).select("tr");
 	}
 
 	private void initGroupColumn(int groupNum) {
