@@ -6,6 +6,8 @@ public class MessagesConfig {
 	public static final String LESSON_SCHEDULE_COMMAND = "/расписание";
 	public static final String SETTINGS_COMMAND = "/настройки";
 	public static final String CHANGE_GROUP_COMMAND = "/сменить_группу";
+	public static final String BROADCAST_COMMAND = "/broadcast";
+
 
 
 	public static final String INFO_COMMAND = "/info";
@@ -32,6 +34,7 @@ public class MessagesConfig {
 
 			\uD83D\uDC68\uD83C\uDFFF\u200D\uD83D\uDCBB Обратная связь: @Azenizzka""";
 
+	public static final String MESSAGE_FROM_ADMIN_TEMPLATE = "✉️ Сообщение от администратора:\n*%s*";
 
 
 

@@ -15,13 +15,14 @@ import java.util.List;
 public class CommandsHandler implements Handler {
 	private final List<Command> commands;
 
-	public CommandsHandler(BellCommand bellCommand, ReturnCommand returnCommand, InfoCommand infoCommand, SettingsCommand settingsCommand, ScheduleCommand scheduleCommand) {
+	public CommandsHandler(BellCommand bellCommand, ReturnCommand returnCommand, InfoCommand infoCommand, SettingsCommand settingsCommand, ScheduleCommand scheduleCommand, BroadcastCommand broadcastCommand) {
 		this.commands = new ArrayList<>();
 
 		commands.add(returnCommand);
 		commands.add(bellCommand);
 		commands.add(settingsCommand);
 		commands.add(scheduleCommand);
+		commands.add(broadcastCommand);
 
 		commands.add(infoCommand);
 	}
@@ -35,7 +36,7 @@ public class CommandsHandler implements Handler {
 				continue;
 			}
 
-			if (command.getCommand().equals(textMessage)) {
+			if (textMessage.startsWith(command.getCommand())) {
 				return command.handle(update, person);
 			}
 		}

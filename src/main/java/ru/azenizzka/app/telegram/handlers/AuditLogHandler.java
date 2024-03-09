@@ -10,6 +10,7 @@ import ru.azenizzka.app.configuration.TelegramBotConfiguration;
 import ru.azenizzka.app.entities.Person;
 import ru.azenizzka.app.telegram.keyboards.KeyboardType;
 import ru.azenizzka.app.telegram.messages.CustomMessage;
+import ru.azenizzka.app.utils.MessagesConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class AuditLogHandler implements Handler {
 				String replyToUserChatId = update.getMessage().getReplyToMessage().getReplyMarkup().getKeyboard().get(0).get(0).getText();
 
 				sendMessage.setChatId(replyToUserChatId);
-				sendMessage.setText("✉️ Сообщение от администратора:\n*" + message.getText() + "*");
+				sendMessage.setText(String.format(MessagesConfig.MESSAGE_FROM_ADMIN_TEMPLATE, message.getText()));
 
 				list.add(sendMessage);
 
