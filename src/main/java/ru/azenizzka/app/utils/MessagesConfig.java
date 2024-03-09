@@ -7,6 +7,8 @@ public class MessagesConfig {
 	public static final String SETTINGS_COMMAND = "/настройки";
 	public static final String CHANGE_GROUP_COMMAND = "/сменить_группу";
 	public static final String BROADCAST_COMMAND = "/broadcast";
+	public static final String SET_ADMIN_COMMAND = "/setadmin";
+	public static final String DEL_ADMIN_COMMAND = "/deladmin";
 
 
 
@@ -17,10 +19,10 @@ public class MessagesConfig {
 
 
 	public static final String HELP_MESSAGE = "help message";
-	public static final String BELL_MESSAGE = "✏️ *Введите тип звонков*";
-	public static final String DAY_MESSAGE = "✏️ *Введите день*";
+	public static final String BELL_MESSAGE = "✏ *Введите тип звонков*";
+	public static final String DAY_MESSAGE = "✏ *Введите день*";
 	public static final String CHANGE_GROUP_MESSAGE = """
-			✏️ Введите номер вашей группы.
+			✏ Введите номер вашей группы.
 
 			Пример: Если ваша группа *МР-232*, то вводите *232*.""";
 	public static final String SUCCESS_CHANGE_GROUP_MESSAGE = "\uD83D\uDFE2 Вы усппешно сменили группу";
@@ -29,12 +31,19 @@ public class MessagesConfig {
 
 
 	public static final String ERROR_TEMPLATE = """
-			⭕️ Что-то пошло не так..
+			⭕ Что-то пошло не так..
 			Текст ошибки: *%s*.
 
 			\uD83D\uDC68\uD83C\uDFFF\u200D\uD83D\uDCBB Обратная связь: @Azenizzka""";
 
 	public static final String MESSAGE_FROM_ADMIN_TEMPLATE = "✉️ Сообщение от администратора:\n*%s*";
+
+	public static final String NOTIFY_TEMPLATE = """
+			🔔 Новое уведомление
+			*%s*
+			
+			\uD83D\uDC68\uD83C\uDFFF\u200D\uD83D\uDCBB Обратная связь: @Azenizzka""";
+
 
 
 
@@ -44,4 +53,18 @@ public class MessagesConfig {
 	public static final String UNKNOWN_COMMAND_EXCEPTION = "Такой команды не существует";
 	public static final String GROUP_NOT_FOUND_EXCEPTION = "Такой группы не существует";
 	public static final String GROUP_NOT_DEFINED_EXCEPTION = "Необходимо установить группу в настройках";
+
+	public static final String NULL_BROADCAST_MESSAGE_EXCEPTION = "Необходимо ввести текст";
+
+	public static final String PERSON_NOT_FOUND_EXCEPTION = "Чат с таким ID не найден!";
+
+	public static final String PERSON_ALREADY_ADMIN = "Пользователь уже является администратором";
+	public static final String PERSON_ALREADY_NOT_ADMIN = "Пользователь не является администратором";
+
+	public static final String SUCCES_SET_ADMIN = "Вы успешно назначили нового администратора";
+	public static final String SUCCES_DEL_ADMIN = "Вы успешно разжаловали администратора";
+
+	public static final String YOU_ARE_ADMIN = "Вы были назначены администратором";
+	public static final String YOU_ARE_NOT_ADMIN = "Вы были разжалованы из администраторов";
+
 }

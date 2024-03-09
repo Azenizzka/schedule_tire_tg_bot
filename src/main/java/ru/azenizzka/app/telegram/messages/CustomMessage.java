@@ -6,8 +6,7 @@ import ru.azenizzka.app.telegram.keyboards.*;
 
 public class CustomMessage extends SendMessage {
 	public CustomMessage(String chatId, KeyboardType keyboardType) {
-		this();
-		setChatId(chatId);
+		this(chatId);
 
 		switch (keyboardType) {
 			case MAIN -> MainKeyboard.addKeyboard(this);
@@ -21,6 +20,16 @@ public class CustomMessage extends SendMessage {
 	public CustomMessage(String chatId, KeyboardType keyboardType, String text) {
 		this(chatId, keyboardType);
 		setText(text);
+	}
+
+	public CustomMessage(String chatId, String text) {
+		this(chatId);
+		setText(text);
+	}
+
+	public CustomMessage(String chatId) {
+		this();
+		setChatId(chatId);
 	}
 
 	public CustomMessage() {

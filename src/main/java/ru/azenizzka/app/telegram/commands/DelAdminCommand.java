@@ -13,16 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class BroadcastCommand implements Command {
+public class DelAdminCommand implements Command {
 	private final PersonService personService;
 
-	public BroadcastCommand(PersonService personService) {
+	public DelAdminCommand(PersonService personService) {
 		this.personService = personService;
 	}
 
 	@Override
 	public String getCommand() {
-		return MessagesConfig.BROADCAST_COMMAND;
+		return MessagesConfig.DEL_ADMIN_COMMAND;
 	}
 
 	@Override
@@ -32,23 +32,28 @@ public class BroadcastCommand implements Command {
 
 	@Override
 	public List<SendMessage> handle(Update update, Person person) {
+		String adminChatId = update.getMessage().getText().replace(getCommand() + " ", "");
+
 		List<SendMessage> list = new ArrayList<>();
-		SendMessage message;
 
-		StringBuilder messageText = new StringBuilder(update.getMessage().getText());
-
-		if (messageText.length() == getCommand().length()) {
-			list.add(new ErrorMessage(person.getChatId(), MessagesConfig.NULL_BROADCAST_MESSAGE_EXCEPTION));
-
+		if (!personService.isExistsByChatId(adminChatId)) {
+			list.add(new ErrorMessage(person.getChatId(), MessagesConfig.PERSON_NOT_FOUND_EXCEPTION));
 			return list;
 		}
 
-		messageText.replace(0, getCommand().length() + 1, "");
+		Person admin = personService.findByChatId(adminChatId);
 
-		for (Person client : personService.findAll()) {
-			message = new NotifyMessage(client.getChatId(), messageText.toString());
-			list.add(message);
+		if (!admin.isAdmin()) {
+			list.add(new ErrorMessage(person.getChatId(), MessagesConfig.PERSON_ALREADY_NOT_ADMIN));
+			return list;
 		}
+
+		admin.setAdmin(false);
+
+		list.add(new NotifyMessage(person.getChatId(), MessagesConfig.SUCCES_DEL_ADMIN));
+		list.add(new NotifyMessage(admin.getChatId(), MessagesConfig.YOU_ARE_NOT_ADMIN));
+
+		personService.save(admin);
 
 		return list;
 	}

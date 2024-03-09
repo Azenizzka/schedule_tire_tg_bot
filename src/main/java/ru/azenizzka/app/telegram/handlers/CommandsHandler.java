@@ -15,7 +15,7 @@ import java.util.List;
 public class CommandsHandler implements Handler {
 	private final List<Command> commands;
 
-	public CommandsHandler(BellCommand bellCommand, ReturnCommand returnCommand, InfoCommand infoCommand, SettingsCommand settingsCommand, ScheduleCommand scheduleCommand, BroadcastCommand broadcastCommand) {
+	public CommandsHandler(BellCommand bellCommand, ReturnCommand returnCommand, InfoCommand infoCommand, SettingsCommand settingsCommand, ScheduleCommand scheduleCommand, BroadcastCommand broadcastCommand, DelAdminCommand delAdminCommand, SetAdminCommand setAdminCommand) {
 		this.commands = new ArrayList<>();
 
 		commands.add(returnCommand);
@@ -23,6 +23,8 @@ public class CommandsHandler implements Handler {
 		commands.add(settingsCommand);
 		commands.add(scheduleCommand);
 		commands.add(broadcastCommand);
+		commands.add(delAdminCommand);
+		commands.add(setAdminCommand);
 
 		commands.add(infoCommand);
 	}
