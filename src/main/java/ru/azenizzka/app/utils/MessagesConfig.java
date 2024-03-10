@@ -18,7 +18,6 @@ public class MessagesConfig {
 	public static final String INFO_HEADER = "Список пользователей\n\n";
 
 
-	public static final String HELP_MESSAGE = "help message";
 	public static final String BELL_MESSAGE = "✏ *Введите тип звонков*";
 	public static final String DAY_MESSAGE = "✏ *Введите день*";
 	public static final String CHANGE_GROUP_MESSAGE = """
@@ -27,6 +26,13 @@ public class MessagesConfig {
 			Пример: Если ваша группа *МР-232*, то вводите *232*.""";
 	public static final String SUCCESS_CHANGE_GROUP_MESSAGE = "\uD83D\uDFE2 Вы усппешно сменили группу";
 	public static final String NO_LESSONS_MESSAGE = "\uD83E\uDD42 *В этот день у вас нет занятий!*";
+
+	public static final String HELP_MESSAGE = "*" + LESSON_SCHEDULE_COMMAND + "*\n" +
+			"Расписание занятий\n" +
+			"*" + RECESS_SCHEDULE_COMMAND + "*\n" +
+			"Расписание звонков\n" +
+			"*" + SETTINGS_COMMAND + "*\n" +
+			"Настройки бота";
 
 
 
