@@ -47,6 +47,10 @@ public class LessonScheduleService {
 			case SATURDAY -> dayNum = 5;
 		}
 
+		if (dayNum == 6) {
+			return lessonsList;
+		}
+
 		int increment = 3;
 
 		int startRowIndex = (neededRow + increment) + 6 * dayNum;
