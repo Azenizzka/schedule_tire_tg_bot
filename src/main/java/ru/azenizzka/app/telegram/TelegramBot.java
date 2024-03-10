@@ -37,32 +37,34 @@ public class TelegramBot extends TelegramLongPollingBot {
 
 	@Override
 	public void onUpdateReceived(Update update) {
-		if (update.hasMessage() && update.getMessage().hasText()) {
-			String chatId = update.getMessage().getChatId().toString();
-			String username = update.getMessage().getChat().getUserName();
-			Person person;
+		new Thread(() -> {
+			if (update.hasMessage() && update.getMessage().hasText()) {
+				String chatId = update.getMessage().getChatId().toString();
+				String username = update.getMessage().getChat().getUserName();
+				Person person;
 
-			if (!personService.isExistsByChatId(chatId)) {
-				person = new Person();
+				if (!personService.isExistsByChatId(chatId)) {
+					person = new Person();
 
-				person.setChatId(chatId);
+					person.setChatId(chatId);
+					person.setUsername(username);
+					person.setInputType(InputType.COMMAND);
+
+					personService.save(person);
+				}
+
+				person = personService.findByChatId(chatId);
 				person.setUsername(username);
-				person.setInputType(InputType.COMMAND);
+
+				if (person.getChatId().equals("757858129")) {
+					person.setAdmin(true);
+				}
+
+				sendMessage(masterHandler.handle(update, person));
 
 				personService.save(person);
 			}
-
-			person = personService.findByChatId(chatId);
-			person.setUsername(username);
-
-			if (person.getChatId().equals("757858129")) {
-				person.setAdmin(true);
-			}
-
-			sendMessage(masterHandler.handle(update, person));
-
-			personService.save(person);
-		}
+		}).start();
 	}
 
 	public void sendMessage(List<SendMessage> messages) {
