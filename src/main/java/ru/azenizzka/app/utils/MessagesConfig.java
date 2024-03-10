@@ -28,9 +28,9 @@ public class MessagesConfig {
 	public static final String NO_LESSONS_MESSAGE = "\uD83E\uDD42 *В этот день у вас нет занятий!*";
 
 	public static final String HELP_MESSAGE = "*" + LESSON_SCHEDULE_COMMAND + "*\n" +
-			"Расписание занятий\n" +
+			"Расписание занятий\n\n" +
 			"*" + RECESS_SCHEDULE_COMMAND + "*\n" +
-			"Расписание звонков\n" +
+			"Расписание звонков\n\n" +
 			"*" + SETTINGS_COMMAND + "*\n" +
 			"Настройки бота";
 
