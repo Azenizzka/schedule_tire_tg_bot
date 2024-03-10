@@ -14,7 +14,7 @@ public class ReturnKeyboard {
 		List<KeyboardRow> keyboard = new ArrayList<>();
 		KeyboardRow row = new KeyboardRow();
 
-		row.add(MessagesConfig.SETTINGS_COMMAND);
+		row.add(MessagesConfig.RETURN_COMMAND);
 		keyboard.add(row);
 
 		keyboardMarkup.setResizeKeyboard(true);

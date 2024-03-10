@@ -165,8 +165,8 @@ public class LessonScheduleService {
 		Elements elements = mainDocument.select("a[href]");
 
 		for (Element hyperLink : elements) {
-			String hyprText = hyperLink.text();
-			if (hyprText.contains(String.valueOf(groupNum))) {
+			String hyperText = hyperLink.text();
+			if (hyperText.contains(String.valueOf(groupNum))) {
 				return true;
 			}
 		}
