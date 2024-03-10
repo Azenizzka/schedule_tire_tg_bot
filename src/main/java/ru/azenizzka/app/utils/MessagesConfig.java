@@ -36,8 +36,6 @@ public class MessagesConfig {
 
 			\uD83D\uDC68\uD83C\uDFFF\u200D\uD83D\uDCBB Обратная связь: @Azenizzka""";
 
-	public static final String MESSAGE_FROM_ADMIN_TEMPLATE = "✉️ Сообщение от администратора:\n*%s*";
-
 	public static final String NOTIFY_TEMPLATE = """
 			🔔 Новое уведомление
 			*%s*

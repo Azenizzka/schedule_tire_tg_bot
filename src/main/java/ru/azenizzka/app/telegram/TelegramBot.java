@@ -10,7 +10,6 @@ import ru.azenizzka.app.entities.Person;
 import ru.azenizzka.app.services.PersonService;
 import ru.azenizzka.app.telegram.handlers.InputType;
 import ru.azenizzka.app.telegram.handlers.MasterHandler;
-import ru.azenizzka.app.utils.MessagesConfig;
 
 import java.util.List;
 
