@@ -40,8 +40,11 @@ public class InfoCommand implements Command {
 
 		int counter = 0;
 		boolean isSet = false;
-		result.append(MessagesConfig.INFO_HEADER);
-		for (Person user : personService.findAll()) {
+
+		List<Person> personList = personService.findAll();
+		result.append(String.format(MessagesConfig.INFO_HEADER, personList.size()));
+		
+		for (Person user : personList) {
 			counter++;
 			result.append("\uD83D\uDC68\uD83C\uDFFF\u200D\uD83E\uDDB2 @").append(user.getUsername()).append(" cID:").append(user.getChatId()).append("\n");
 			result.append("\uD83D\uDCDA group: ").append(user.getGroupNum()).append("\n");

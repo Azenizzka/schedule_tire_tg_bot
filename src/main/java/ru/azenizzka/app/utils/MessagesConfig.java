@@ -15,7 +15,7 @@ public class MessagesConfig {
 	public static final String INFO_COMMAND = "/info";
 
 
-	public static final String INFO_HEADER = "Список пользователей\n\n";
+	public static final String INFO_HEADER = "Список пользователей. Количество: %d\n\n";
 
 
 	public static final String BELL_MESSAGE = "✏ *Введите тип звонков*";
