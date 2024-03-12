@@ -32,36 +32,37 @@ public class InfoCommand implements Command {
 
 	@Override
 	public List<SendMessage> handle(Update update, Person person) {
+		List<SendMessage> messages = new LinkedList<>();
 		SendMessage message = new CustomMessage(person.getChatId(), KeyboardType.MAIN);
 		message.enableMarkdown(false);
-		List<SendMessage> messages = new LinkedList<>();
+
+		List<Person> personList = personService.findAll();
 
 		StringBuilder result = new StringBuilder();
 
 		int counter = 0;
 		boolean isSet = false;
 
-		List<Person> personList = personService.findAll();
 		result.append(String.format(MessagesConfig.INFO_HEADER, personList.size()));
-		
+
 		for (Person user : personList) {
 			counter++;
+
 			result.append("\uD83D\uDC68\uD83C\uDFFF\u200D\uD83E\uDDB2 @").append(user.getUsername()).append(" cID:").append(user.getChatId()).append("\n");
 			result.append("\uD83D\uDCDA group: ").append(user.getGroupNum()).append("\n");
 			result.append("\uD83D\uDC68\uD83C\uDFFF\u200D\uD83E\uDDB3 isAdmin: ");
-			if (user.isAdmin()) {
-				result.append("\uD83D\uDFE2\n\n");
-			} else {
-				result.append("\uD83D\uDD34\n\n");
-			}
+			result.append(user.isAdmin() ? "\uD83D\uDFE2\n\n" : "\uD83D\uDD34\n\n");
 
 			if (counter == 10) {
 				isSet = true;
 				counter = 0;
+
 				message.setText(result.toString());
 				messages.add(message);
 				message = new CustomMessage(person.getChatId(), KeyboardType.MAIN);
 				message.enableMarkdown(false);
+				
+				result = new StringBuilder();
 			}
 		}
 
