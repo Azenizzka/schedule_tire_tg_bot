@@ -59,11 +59,17 @@ public class InfoCommand implements Command {
 
 				message.setText(result.toString());
 				messages.add(message);
+
 				message = new CustomMessage(person.getChatId(), KeyboardType.MAIN);
 				message.enableMarkdown(false);
-				
+
 				result = new StringBuilder();
 			}
+		}
+
+		if (personList.size() % 10 != 0) {
+			message.setText(result.toString());
+			messages.add(message);
 		}
 
 		if (!isSet) {
