@@ -8,11 +8,23 @@ import org.springframework.stereotype.Component;
 import ru.azenizzka.app.utils.Day;
 import ru.azenizzka.app.utils.DayUtil;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import javax.print.Doc;
+import javax.print.attribute.standard.DocumentName;
 import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
+
+
+// TODO: полностью переписать всю эту залупу
 
 @Component
 public class LessonScheduleService {
@@ -157,7 +169,7 @@ public class LessonScheduleService {
 		Document mainDocument;
 
 		try {
-			mainDocument = Jsoup.connect("http://www.ntmm.ru/student/raspisanie.php").get();
+			mainDocument = getDocumentByUrl("https://www.ntmm.ru/student/raspisanie.php");
 		} catch (IOException e) {
 			throw new Exception("Сайт недоступен!");
 		}
@@ -174,15 +186,37 @@ public class LessonScheduleService {
 		return false;
 	}
 
+
+	// todo: ОСОБЕННО ЭТО!!! MID!!!!!!!
+	private Document getDocumentByUrl(String url) throws IOException, NoSuchAlgorithmException, KeyManagementException {
+		SSLContext sslContext = SSLContext.getInstance("TLS");
+
+		sslContext.init(null, new TrustManager[]{new X509TrustManager() {
+			public X509Certificate[] getAcceptedIssuers() {
+				return null;
+			}
+
+			public void checkClientTrusted(X509Certificate[] certs, String authType) {
+			}
+
+			public void checkServerTrusted(X509Certificate[] certs, String authType) {
+			}
+		}}, new java.security.SecureRandom());
+
+		SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+
+		return Jsoup.connect(url).sslSocketFactory(sslSocketFactory).get();
+	}
+
 	private void initUrl(int groupNum) throws Exception {
-		Document mainDocument = Jsoup.connect("http://www.ntmm.ru/student/raspisanie.php").get();
+		Document mainDocument = getDocumentByUrl("https://www.ntmm.ru/student/raspisanie.php");
 		Elements elements = mainDocument.select("a[href]");
 
 		for (Element hyperLink : elements) {
 			String hyprText = hyperLink.text();
 
 			if (hyprText.contains(String.valueOf(groupNum))) {
-				url = "http://www.ntmm.ru" + hyperLink.attr("href").replace(".htm", ".files") + "/sheet001.htm";
+				url = "https://www.ntmm.ru" + hyperLink.attr("href").replace(".htm", ".files") + "/sheet001.htm";
 				initDocument();
 
 				return;
@@ -196,7 +230,7 @@ public class LessonScheduleService {
 		Document document;
 
 		try {
-			document = Jsoup.connect(url).get();
+			document = getDocumentByUrl(url);
 		} catch (IOException e) {
 			throw new Exception("Сайт недоступен");
 		}
