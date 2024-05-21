@@ -41,6 +41,7 @@ public class AuditLogHandler implements Handler {
 			}
 		} else {
 			sendMessage = new CustomMessage();
+			sendMessage.enableMarkdown(false);
 			sendMessage.setChatId(configuration.getAuditLogChatId());
 			sendMessage.setText(String.format("@%s [%d] (%s): *\"%s\"*", person.getUsername(), person.getGroupNum(), person.getUsername(), message.getText()));
 
