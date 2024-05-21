@@ -43,7 +43,7 @@ public class AuditLogHandler implements Handler {
 			sendMessage = new CustomMessage();
 			sendMessage.enableMarkdown(false);
 			sendMessage.setChatId(configuration.getAuditLogChatId());
-			sendMessage.setText(String.format("@%s [%d] (%s): *\"%s\"*", person.getUsername(), person.getGroupNum(), person.getUsername(), message.getText()));
+			sendMessage.setText(String.format("@%s [%d] (%s): \"%s\"", person.getUsername(), person.getGroupNum(), person.getUsername(), message.getText()));
 
 			InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
 			List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
